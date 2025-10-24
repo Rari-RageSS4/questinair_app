@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "688968117445",
+    "project_id": "quest-in-air-56bd0",
+    "storage_bucket": "quest-in-air-56bd0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688968117445:android:3abe800237ef04b90994ac",
+        "android_client_info": {
+          "package_name": "com.example.questinair_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhn95alM_Vc1LRxAuKTagofXQJd8vsW48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
