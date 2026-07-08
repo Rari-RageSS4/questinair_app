@@ -25,6 +25,18 @@ import 'package:questinair_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 final sl = GetIt.instance; // `sl` stands for Service Locator
 
 Future<void> init() async {
+  _initCore();
+  _initAuth();
+  _initQuiz();
+}
+
+void _initCore() {
+  // --- External Dependencies ---
+  sl.registerLazySingleton(() => FirebaseAuth.instance);
+  sl.registerLazySingleton(() => FirebaseFirestore.instance);
+}
+
+void _initAuth() {
   // --- Features - Auth ---
   // Bloc
   sl.registerFactory(() => AuthBloc(
@@ -46,9 +58,10 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton(() => FirebaseAuthDataSource(firebaseAuth: sl()));
-
+}
 //------------------------------------------------------------------------------------
 
+void _initQuiz() {
   // --- Features - Quiz ---
   // Bloc
   sl.registerFactory(() => QuizBloc(
@@ -66,8 +79,4 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<QuizRemoteDataSource>(
       () => QuizRemoteDataSourceImpl(sl()));
-
-  // --- External Dependencies ---
-  sl.registerLazySingleton(() => FirebaseAuth.instance);
-  sl.registerLazySingleton(() => FirebaseFirestore.instance);
 }

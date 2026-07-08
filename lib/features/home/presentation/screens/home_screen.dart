@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent, // Use global gradient
       appBar: AppBar(
-        title: Text('Home', style: AppTextStyles.title),
+        title: const Text('Home', style: AppTextStyles.title),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [

@@ -16,13 +16,19 @@ import 'package:questinair_app/core/di/injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } on UnsupportedError {
+    // DefaultFirebaseOptions not configured for this platform (e.g., windows).
+    // Fall back to a no-options initialization so the app can run for development.
+    await Firebase.initializeApp();
+  }
   await di.init();
   runApp(const MyApp());
 }
-
+ 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

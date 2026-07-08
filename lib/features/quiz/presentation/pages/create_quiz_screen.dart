@@ -180,11 +180,13 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
 
   void _clearFields() {
     _titleController.clear();
-    _tempQuestions.forEach((temp) {
+    for (var temp in _tempQuestions) {
       temp.questionController.clear();
-      temp.optionControllers.forEach((c) => c.clear());
+      for (var c in temp.optionControllers) {
+        c.clear();
+      }
       temp.correctIndex = 0;
-    });
+    }
     _tempQuestions.clear();
     setState(() {});
   }

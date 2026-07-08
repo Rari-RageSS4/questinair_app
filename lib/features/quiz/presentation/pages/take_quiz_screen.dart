@@ -40,7 +40,7 @@ class _TakeQuizScreenState extends State<TakeQuizScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Quiz Completed', style: AppTextStyles.title),
+        title: const Text('Quiz Completed', style: AppTextStyles.title),
         content: Text(
           'Your score: $score/${widget.quiz.questions.length}',
           style: AppTextStyles.subtitle,
@@ -48,7 +48,7 @@ class _TakeQuizScreenState extends State<TakeQuizScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('OK', style: AppTextStyles.button),
+            child: const Text('OK', style: AppTextStyles.button),
           ),
         ],
       ),
@@ -86,7 +86,7 @@ class _TakeQuizScreenState extends State<TakeQuizScreen> {
                 groupValue: selectedAnswers[currentQuestionIndex],
                 onChanged: (value) => _submitAnswer(value!),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
