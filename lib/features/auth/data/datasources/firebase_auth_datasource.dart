@@ -1,10 +1,11 @@
 // lib/features/auth/data/datasources/firebase_auth_datasource.dart
 
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:questinair_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import '../models/user_model.dart';
 import '../../domain/exceptions/auth_exceptions.dart'; // <--- NEW: Import your custom exceptions
 
-class FirebaseAuthDataSource {
+class FirebaseAuthDataSource implements AuthRemoteDataSource {
   final firebase_auth.FirebaseAuth firebaseAuth;
 
   FirebaseAuthDataSource({required this.firebaseAuth});
@@ -17,7 +18,8 @@ class FirebaseAuthDataSource {
       );
       // Ensure user is not null, although Firebase usually guarantees this on success
       if (credential.user == null) {
-        throw const AuthException('User creation failed: Firebase user is null.');
+        throw const AuthException(
+            'User creation failed: Firebase user is null.');
       }
       return UserModel.fromFirebaseUser(credential.user!);
     } on firebase_auth.FirebaseAuthException catch (e) {
@@ -25,7 +27,8 @@ class FirebaseAuthDataSource {
       throw _handleFirebaseAuthException(e);
     } catch (e) {
       // <--- NEW: Catch any other unexpected errors
-      throw AuthException('An unknown error occurred during sign-up: ${e.toString()}');
+      throw AuthException(
+          'An unknown error occurred during sign-up: ${e.toString()}');
     }
   }
 
@@ -45,7 +48,8 @@ class FirebaseAuthDataSource {
       throw _handleFirebaseAuthException(e);
     } catch (e) {
       // <--- NEW: Catch any other unexpected errors
-      throw AuthException('An unknown error occurred during sign-in: ${e.toString()}');
+      throw AuthException(
+          'An unknown error occurred during sign-in: ${e.toString()}');
     }
   }
 
@@ -67,8 +71,16 @@ class FirebaseAuthDataSource {
     return null;
   }
 
+  // <--- NEW: Implement the authStateChanges stream getter
+  @override
+  Stream<UserModel?> get authStateChanges =>
+      firebaseAuth.authStateChanges().map(
+            (user) => user == null ? null : UserModel.fromFirebaseUser(user),
+          );
+
   // <--- NEW: Helper method to map Firebase Auth exceptions to your custom exceptions
-  AuthException _handleFirebaseAuthException(firebase_auth.FirebaseAuthException e) {
+  AuthException _handleFirebaseAuthException(
+      firebase_auth.FirebaseAuthException e) {
     switch (e.code) {
       case 'email-already-in-use':
         return const AuthEmailAlreadyInUseException();
@@ -84,7 +96,8 @@ class FirebaseAuthDataSource {
       // For example:
       // case 'network-request-failed': return const AuthNetworkException();
       default:
-        return AuthException(e.message ?? 'An unknown authentication error occurred.');
+        return AuthException(
+            e.message ?? 'An unknown authentication error occurred.');
     }
   }
 }

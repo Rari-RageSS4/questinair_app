@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:questinair_app/features/auth/data/datasources/auth_remote_data_source.dart';
 
 // Auth Feature Imports
 import 'package:questinair_app/features/auth/data/datasources/firebase_auth_datasource.dart';
@@ -54,10 +55,14 @@ void _initAuth() {
   // Repository
   sl.registerLazySingleton<AuthRepository>(
       // <--- CHANGED: Constructor parameter name from 'dataSource' to 'firebaseAuthDataSource'
-      () => AuthRepositoryImpl(firebaseAuthDataSource: sl()));
+      () => AuthRepositoryImpl(remoteDataSource: sl()));
 
   // Data sources
-  sl.registerLazySingleton(() => FirebaseAuthDataSource(firebaseAuth: sl()));
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+    () => FirebaseAuthDataSource(
+      firebaseAuth: sl(),
+    ),
+  );
 }
 //------------------------------------------------------------------------------------
 

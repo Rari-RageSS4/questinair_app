@@ -2,14 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:questinair_app/features/auth/domain/entities/user_entity.dart';
 
-class UserModel extends UserEntity {
+class UserModel {
+  final String uid;
+  final String email;
+  final String name;
+  final String profileImageUrl;
+  final int questionsCreated;
+  final int questionsAnswered;
   const UserModel({
-    required super.uid,
-    required super.email,
-    required super.name,
-    required super.profileImageUrl,
-    required super.questionsCreated,
-    required super.questionsAnswered,
+    required this.uid,
+    required this.email,
+    required this.name,
+    required this.profileImageUrl,
+    required this.questionsCreated,
+    required this.questionsAnswered,
   });
 
   // 🔹 Create a UserModel from FirebaseAuth user (Auth login)
@@ -65,5 +71,27 @@ class UserModel extends UserEntity {
       questionsCreated: questionsCreated ?? this.questionsCreated,
       questionsAnswered: questionsAnswered ?? this.questionsAnswered,
     );
+  }
+
+  // 🔹 Convert UserModel to UserEntity
+  UserEntity toEntity() {
+    return UserEntity(
+        uid: uid,
+        email: email,
+        name: name,
+        profileImageUrl: profileImageUrl,
+        questionsCreated: questionsCreated,
+        questionsAnswered: questionsAnswered);
+  }
+
+// 🔹 Create a UserModel from a UserEntity
+  factory UserModel.fromEntity(UserEntity entity) {
+    return UserModel(
+        uid: entity.uid,
+        email: entity.email,
+        name: entity.name,
+        profileImageUrl: entity.profileImageUrl,
+        questionsCreated: entity.questionsCreated,
+        questionsAnswered: entity.questionsAnswered);
   }
 }
