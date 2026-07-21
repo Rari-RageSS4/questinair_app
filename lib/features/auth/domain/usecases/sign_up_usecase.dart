@@ -1,5 +1,4 @@
-
-import 'package:questinair_app/features/auth/domain/entities/user_entity.dart';
+import 'package:questinair_app/features/auth/domain/entities/auth_user_entity.dart';
 
 import '../repositories/auth_repository.dart';
 
@@ -8,7 +7,7 @@ class SignUpUseCase {
 
   SignUpUseCase(this.repository);
 
-  Future<UserEntity> call(String email, String password) {
+  Future<AuthUserEntity> call(String email, String password) {
     return repository.signUp(email, password);
   }
 }

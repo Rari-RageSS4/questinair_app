@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart'; // <--- NEW: Import flutter_blo
 import 'package:questinair_app/core/constants/text_styles.dart';
 import 'package:questinair_app/core/routes/app_routes.dart';
 import 'package:questinair_app/core/widgets/primary_button.dart';
+import 'package:questinair_app/features/profile/presentation/pages/profile_screen.dart';
 import 'package:questinair_app/features/quiz/presentation/pages/create_quiz_screen.dart';
 import 'package:questinair_app/features/quiz/presentation/pages/quiz_list_screen.dart';
 import 'package:questinair_app/features/auth/presentation/bloc/auth_bloc.dart'; // <--- NEW: Import AuthBloc
@@ -19,9 +20,22 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.transparent, // Use global gradient
       appBar: AppBar(
         title: const Text('Home', style: AppTextStyles.title),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
+          // <--- NEW: Profile button
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ProfileScreen(),
+                ),
+              );
+            },
+          ),
           // <--- NEW: Logout button
           IconButton(
             icon: const Icon(Icons.logout),

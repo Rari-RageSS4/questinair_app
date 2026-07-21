@@ -9,10 +9,19 @@ import 'package:questinair_app/features/auth/data/datasources/auth_remote_data_s
 import 'package:questinair_app/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:questinair_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:questinair_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:questinair_app/features/auth/domain/usecases/listen_auth_state_use_case.dart';
 import 'package:questinair_app/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:questinair_app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:questinair_app/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:questinair_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:questinair_app/features/profile/data/datasource/firebase_profile_remote_datasource.dart';
+import 'package:questinair_app/features/profile/data/datasource/profile_remote_datasource.dart';
+import 'package:questinair_app/features/profile/domain/repository/profile_repository.dart';
+import 'package:questinair_app/features/profile/domain/usecases/create_profile_usecase.dart';
+import 'package:questinair_app/features/profile/domain/usecases/delete_profile_usecase.dart';
+import 'package:questinair_app/features/profile/domain/usecases/get_profile_usecase.dart';
+import 'package:questinair_app/features/profile/domain/usecases/ensure_profile_exists_usecase.dart';
+import 'package:questinair_app/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:questinair_app/features/quiz/data/datasources/quiz_remote_data_source.dart';
 
 // Quiz Feature Imports
@@ -23,12 +32,16 @@ import 'package:questinair_app/features/quiz/domain/usecases/create_quiz_usecase
 import 'package:questinair_app/features/quiz/domain/usecases/get_all_quizzes_usecase.dart';
 import 'package:questinair_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 
-final sl = GetIt.instance; // `sl` stands for Service Locator
+import '../../features/profile/data/repository/profile_repository_impl.dart';
+import '../../features/profile/presentation/bloc/profile_bloc.dart';
+
+final GetIt sl = GetIt.instance; // `sl` stands for Service Locator
 
 Future<void> init() async {
   _initCore();
   _initAuth();
   _initQuiz();
+  _initProfile();
 }
 
 void _initCore() {
@@ -44,13 +57,15 @@ void _initAuth() {
         signInUseCase: sl(),
         signUpUseCase: sl(),
         signOutUseCase: sl(),
-        authRepository: sl(), // <--- NEW: Added authRepository
+        listenAuthStateUseCase: sl(),
+       
       ));
 
   // Use cases
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUseCase(sl()));
+  sl.registerLazySingleton(() => ListenAuthStateUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(
@@ -64,10 +79,10 @@ void _initAuth() {
     ),
   );
 }
-//------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------
+// --- Features - Quiz ---
 void _initQuiz() {
-  // --- Features - Quiz ---
   // Bloc
   sl.registerFactory(() => QuizBloc(
         createQuizUseCase: sl(),
@@ -84,4 +99,47 @@ void _initQuiz() {
   // Data sources
   sl.registerLazySingleton<QuizRemoteDataSource>(
       () => QuizRemoteDataSourceImpl(sl()));
+}
+
+//------------------------------------------------------------------------------------
+
+/* --- Features - Profile --- */
+void _initProfile() {
+// Bloc
+  sl.registerFactory(
+    () => ProfileBloc(
+      createProfileUseCase: sl(),
+      getProfileUseCase: sl(),
+      updateProfileUseCase: sl(),
+      deleteProfileUseCase: sl(),
+      ensureProfileExistsUseCase: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(
+    () => CreateProfileUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetProfileUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => UpdateProfileUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => DeleteProfileUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => EnsureProfileExistsUseCase(sl()),
+  );
+
+  // Repository
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(remoteDataSource: sl()),
+  );
+  
+  // Data sources
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => FirebaseProfileRemoteDatasource(firestore:sl()),
+  );
 }

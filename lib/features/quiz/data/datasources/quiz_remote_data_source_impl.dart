@@ -9,13 +9,14 @@ import 'quiz_remote_data_source.dart';
 class QuizRemoteDataSourceImpl implements QuizRemoteDataSource {
   final FirebaseFirestore firestore;
   final Logger _logger = Logger();
-
+ 
   QuizRemoteDataSourceImpl(this.firestore);
 
   @override
   Future<void> createQuiz(QuizModel quiz) async {
     try{
       await firestore.collection('quizzes').doc(quiz.id).set(quiz.toMap());
+      
     } on FirebaseException catch (e) { // <--- CHANGED: Catch a specific FirebaseException
       _logger.e('Failed to create quiz: $e');
       throw QuizException('Failed to create quiz: ${e.message}'); // <--- CHANGED: Throw QuizException

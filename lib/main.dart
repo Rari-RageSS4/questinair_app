@@ -10,6 +10,8 @@ import 'package:questinair_app/features/auth/presentation/bloc/auth_state.dart';
 import 'package:questinair_app/features/auth/presentation/screens/splash_screen.dart';
 import 'package:questinair_app/features/auth/presentation/screens/signin_screen.dart'; // <--- NEW: Import SignInScreen
 import 'package:questinair_app/features/home/presentation/screens/home_screen.dart'; // <--- NEW: Import HomeScreen for direct navigation
+import 'package:questinair_app/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:questinair_app/features/profile/presentation/bloc/profile_event.dart';
 import 'package:questinair_app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'firebase_options.dart';
 import 'package:questinair_app/core/di/injection_container.dart' as di;
@@ -28,7 +30,7 @@ void main() async {
   await di.init();
   runApp(const MyApp());
 }
- 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -42,24 +44,34 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.sl<QuizBloc>(),
         ),
+        BlocProvider(
+          create: (_) => di.sl<ProfileBloc>(),
+        ),
       ],
       // <--- NEW: BlocListener to handle global auth state changes and navigation
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           // Use AppRoutes.instance.navigationKey.currentContext to ensure
           // navigation happens on the correct context, especially after logout.
-          final currentContext = AppRoutes.instance.navigationKey.currentContext;
+          final currentContext =
+              AppRoutes.instance.navigationKey.currentContext;
           if (currentContext == null) return; // Safety check
 
           if (state is AuthAuthenticated) {
-            // If already on HomeScreen, do nothing. Otherwise, navigate to HomeScreen.
+            context.read<ProfileBloc>().add(
+                  EnsureProfileExistsEvent(
+                    uid: state.user.uid,
+                    email: state.user.email,
+                  ),
+                );
             if (ModalRoute.of(currentContext)?.settings.name != 'HomeScreen') {
-               AppRoutes.instance.goToReplacement(const HomeScreen());
+              AppRoutes.instance.goToReplacement(const HomeScreen());
             }
           } else if (state is AuthUnauthenticated) {
             // If already on SignInScreen, do nothing. Otherwise, navigate to SignInScreen.
-            if (ModalRoute.of(currentContext)?.settings.name != 'SignInScreen') {
-                AppRoutes.instance.goToReplacement(const SignInScreen());
+            if (ModalRoute.of(currentContext)?.settings.name !=
+                'SignInScreen') {
+              AppRoutes.instance.goToReplacement(const SignInScreen());
             }
           }
           // AuthLoading, AuthFailure, AuthSignedOut (from _onSignOutRequested) will be handled by specific screens or just show splash.

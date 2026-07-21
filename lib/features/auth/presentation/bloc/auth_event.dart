@@ -1,7 +1,7 @@
 // lib/features/auth/presentation/bloc/auth_event.dart
 
 import 'package:equatable/equatable.dart';
-import 'package:questinair_app/features/auth/domain/entities/user_entity.dart'; // <--- NEW: Import UserEntity
+import 'package:questinair_app/features/auth/domain/entities/auth_user_entity.dart';
 
 abstract class AuthEvent extends Equatable {
   const AuthEvent();
@@ -37,7 +37,7 @@ class SignOutRequested extends AuthEvent {
 
 // <--- NEW EVENT:
 class AuthStatusChanged extends AuthEvent {
-  final UserEntity? user; // Nullable, as user might become unauthenticated
+  final AuthUserEntity? user; // Nullable, as user might become unauthenticated
 
   const AuthStatusChanged(this.user);
 

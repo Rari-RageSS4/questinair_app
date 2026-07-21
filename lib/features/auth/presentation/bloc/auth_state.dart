@@ -1,7 +1,7 @@
 // lib/features/auth/presentation/bloc/auth_state.dart
 
 import 'package:equatable/equatable.dart';
-import 'package:questinair_app/features/auth/domain/entities/user_entity.dart'; // <--- NEW: Import UserEntity
+import 'package:questinair_app/features/auth/domain/entities/auth_user_entity.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -16,7 +16,7 @@ class AuthLoading extends AuthState {}
 
 // <--- NEW STATES:
 class AuthAuthenticated extends AuthState {
-  final UserEntity user; // The authenticated user's data
+  final AuthUserEntity user; 
 
   const AuthAuthenticated(this.user);
 

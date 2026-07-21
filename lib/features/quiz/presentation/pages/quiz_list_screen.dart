@@ -13,7 +13,7 @@ class QuizListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<QuizBloc>().add(LoadQuizzesEvent());
-
+ 
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text("All Quizzes")),

@@ -4,3 +4,4 @@ abstract class QuizRepository {
   Future<void> createQuiz(QuizEntity quiz);
   Future<List<QuizEntity>> getAllQuizzes();
 }
+ 

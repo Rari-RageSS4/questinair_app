@@ -1,18 +1,16 @@
-import 'package:questinair_app/features/auth/data/models/user_model.dart';
+import 'package:questinair_app/features/auth/data/models/auth_user_model.dart';
 
 abstract class AuthRemoteDataSource {
 
-  Future<UserModel> signIn(
+  Future<AuthUserModel> signIn(
       String email,
       String password);
 
-  Future<UserModel> signUp(
+  Future<AuthUserModel> signUp(
       String email,
       String password);
 
   Future<void> signOut();
 
-  UserModel? getCurrentUser();
-
-   Stream<UserModel?> get authStateChanges;
+   Stream<AuthUserModel?> get authStateChanges;
 }

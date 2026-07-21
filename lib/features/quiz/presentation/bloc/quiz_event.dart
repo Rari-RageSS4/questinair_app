@@ -18,3 +18,4 @@ class CreateQuizEvent extends QuizEvent {
 }
 
 class LoadQuizzesEvent extends QuizEvent {}
+  
