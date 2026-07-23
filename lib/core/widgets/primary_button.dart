@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:questinair_app/core/constants/app_colors.dart';
-import 'package:questinair_app/core/constants/text_styles.dart';
+import 'package:questinair_app/core/constants/app_text_styles.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -16,7 +16,7 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.buttonColor,
+        backgroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

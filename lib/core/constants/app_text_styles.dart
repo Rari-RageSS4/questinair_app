@@ -5,26 +5,26 @@ import 'app_colors.dart';
 
 class AppTextStyles {
   static const TextStyle title = TextStyle(
-    fontSize: 32,
+    fontSize: 26,
     fontWeight: FontWeight.bold,
-    color: AppColors.textColor,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle subtitle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: AppColors.textColor,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle body = TextStyle(
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: AppColors.textColor,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle link = TextStyle(
     fontSize: 14,
-    color: AppColors.accent,
+    color: AppColors.primary,
     decoration: TextDecoration.underline,
   );
 

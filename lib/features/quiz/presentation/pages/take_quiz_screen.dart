@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:questinair_app/core/constants/text_styles.dart';
+import 'package:questinair_app/core/constants/app_text_styles.dart';
 import 'package:questinair_app/features/quiz/domain/entities/quiz_entity.dart';
 
 class TakeQuizScreen extends StatefulWidget {

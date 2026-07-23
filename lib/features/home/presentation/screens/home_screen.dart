@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // <--- NEW: Import flutter_bloc
-import 'package:questinair_app/core/constants/text_styles.dart';
+import 'package:questinair_app/core/constants/app_text_styles.dart';
 import 'package:questinair_app/core/routes/app_routes.dart';
 import 'package:questinair_app/core/widgets/primary_button.dart';
 import 'package:questinair_app/features/profile/presentation/pages/profile_screen.dart';

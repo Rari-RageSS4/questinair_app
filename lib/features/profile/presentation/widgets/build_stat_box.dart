@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:questinair_app/core/constants/app_text_styles.dart';
 
 class BuildStatBox extends StatelessWidget {
   final String number;
@@ -12,29 +13,28 @@ class BuildStatBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 130,
-      padding: const EdgeInsets.all(16),
+      width: 165,
+      padding: const EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
+        color: Colors.white.withValues(alpha: .08),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: Colors.purple,
+          color: Colors.white.withValues(alpha: .12),
         ),
       ),
       child: Column(
         children: [
           Text(
             number,
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTextStyles.title,
           ),
           const SizedBox(height: 6),
           Text(
             label,
             style: const TextStyle(
-              color: Colors.purple,
+              fontSize: 14,
+              color: Colors.white70,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
